@@ -2,14 +2,16 @@ import pygame
 
 pygame.init()
 
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = int(SCREEN_WIDTH * 0.8)
+screen_info =  pygame.display.Info()
 
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+SCREEN_WIDTH = screen_info.current_w
+SCREEN_HEIGHT = screen_info.current_h
+
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.FULLSCREEN)
 pygame.display.set_caption('Rising Star')
 
 clock = pygame.time.Clock()
-FPS = 60
+FPS = 90
 
 moving_left = False
 moving_right = False
@@ -31,7 +33,7 @@ class Player:
         self.health = health
         self.player_img = pygame.image.load('img/player.png')
         self.player_img = pygame.transform.scale(self.player_img, (50, 50))
-        self.vel = 1
+        self.vel = 3
 
     def draw(self):
         screen.blit(self.player_img, (self.x, self.y))
@@ -40,8 +42,6 @@ class Player:
         # Reset movement variables
         dx = 0
         dy = 0
-
-        print(self.x, self.y)
 
         # Assign movement variables if moving left or right
         if moving_left:
@@ -94,6 +94,8 @@ while run:
             if event.key == pygame.K_d:
                 moving_right = True
                 print('right')
+            if event.key == pygame.K_ESCAPE:
+                run = False
 
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_w:
